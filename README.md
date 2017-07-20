@@ -58,7 +58,7 @@ A solution will be given a week later.
     root@worker-node-01:~# docker swarm init --advertise-addr=$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1 }')
     root@worker-node-01:~# exit
 
-    ### Note the command to join worker nodes to the master
+    ### Note the command to join worker nodes to the manager
     ### Ssh into the Worker Nodes 2 and 3 and join them to the Swarm cluster
     $ ssh -i ../ssh/id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$(terraform output -json worker-ip | jq -r '.value[1]')
     root@worker-node-02:~# RUN JOIN CMD
@@ -69,7 +69,7 @@ A solution will be given a week later.
     root@worker-node-03:~# exit
     ```
 
-- Ssh into the Swarm master node, download sample `Voting App` and deploy the stack.
+- Ssh into the Swarm manager node, download sample `Voting App` and deploy the stack.
 
     ```bash
     $ ssh -i ../ssh/id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$(terraform output -json worker-ip | jq -r '.value[0]')
