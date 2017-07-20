@@ -1,0 +1,4 @@
+Packer/packer_cache
+Packer/builds/
+terraform.tfstate
+terraform.tfstate.backup
