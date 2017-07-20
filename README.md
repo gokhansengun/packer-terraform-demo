@@ -11,12 +11,6 @@ This repo includes
 
 `jq`, `packer` and `terraform` must be installed in the user machine following below instructions.
 
-### Challenge
-
-In below procedure, the Docker Swarm Mode cluster is manually setup, use `Terraform` [External Data Source](https://www.terraform.io/docs/providers/external/data_source.html) to make it automated.
-
-A solution will be given a week later.
-
 ### Create a Snapshot in DigitalOcean with Packer
 
 - Using DigitalOcean dashboard, create an API token and add it to a local file named like `~/.digitalocean_api_token`
