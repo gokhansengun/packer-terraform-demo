@@ -11,12 +11,6 @@ This repo includes
 
 `jq`, `packer` and `terraform` must be installed in the user machine following below instructions.
 
-### Challenge
-
-In below procedure, the Docker Swarm Mode cluster is manually setup, use `Terraform` [External Data Source](https://www.terraform.io/docs/providers/external/data_source.html) to make it automated.
-
-A solution will be given a week later.
-
 ### Create a Snapshot in DigitalOcean with Packer
 
 - Using DigitalOcean dashboard, create an API token and add it to a local file named like `~/.digitalocean_api_token`
@@ -51,36 +45,10 @@ A solution will be given a week later.
 
 - `Terraform` will output the load balancer ip address, take a note of it.
 
-- After `terraform` completes, manually ssh into the machines and create the `Docker Swarm Mode` cluster.
-
-    ```bash
-    $ ssh -i ../ssh/id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$(terraform output -json worker-ip | jq -r '.value[0]')
-    root@worker-node-01:~# docker swarm init --advertise-addr=$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1 }')
-    root@worker-node-01:~# exit
-
-    ### Note the command to join worker nodes to the manager
-    ### Ssh into the Worker Nodes 2 and 3 and join them to the Swarm cluster
-    $ ssh -i ../ssh/id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$(terraform output -json worker-ip | jq -r '.value[1]')
-    root@worker-node-02:~# RUN JOIN CMD
-    root@worker-node-02:~# exit
-
-    $ ssh -i ../ssh/id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$(terraform output -json worker-ip | jq -r '.value[2]')
-    root@worker-node-03:~# RUN JOIN CMD
-    root@worker-node-03:~# exit
-    ```
-
-- Ssh into the Swarm manager node, download sample `Voting App` and deploy the stack.
-
-    ```bash
-    $ ssh -i ../ssh/id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$(terraform output -json worker-ip | jq -r '.value[0]')
-    root@worker-node-01:~# curl -o voting-stack.yml 'https://raw.githubusercontent.com/dockersamples/example-voting-app/master/docker-stack.yml'
-    root@worker-node-01:~# docker stack deploy -c voting-stack.yml voting_app
-    ```
-
 - Wait for all services to become `running`, use command below.
 
     ```bash
-    $ ssh -i ../ssh/id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$(terraform output -json worker-ip | jq -r '.value[0]')
+    $ ssh -i ../ssh/id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$(terraform output -json worker-ips | jq -r '.value[0]')
     root@worker-node-01:~# docker stack ps voting_app
     ```
 
