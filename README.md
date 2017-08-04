@@ -39,6 +39,7 @@ This repo includes
 - In the shell, go to `Terraform/Live` folder and run below command to create the infrastructure.
 
     ```bash
+    $ (sudo) chmod 400 ../ssh/id_rsa # properly set the private key's permissions
     $ terraform plan # to confirm the infrastructure
     $ terraform apply
     ```

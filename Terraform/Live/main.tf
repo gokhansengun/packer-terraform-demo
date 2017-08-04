@@ -105,7 +105,7 @@ resource "null_resource" "cluster" {
 }
 
 data "external" "swarm_token" {
-  program = [ "/bin/bash", "./scripts/worker-join-token.s h" ]
+  program = [ "/bin/bash", "./scripts/worker-join-token.sh" ]
   query = {
     swarm_manager_ip = "${digitalocean_droplet.manager.ipv4_address}"
   }
